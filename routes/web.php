@@ -28,7 +28,8 @@ Route::middleware('auth', 'verified')
     ->prefix('admin')
     ->group(function () {
 
-    Route::resource('customers', CustomersController::class);
+    Route::resource('mails', CustomersController::class);
+    
 });
 
 Route::middleware('auth')->group(function () {

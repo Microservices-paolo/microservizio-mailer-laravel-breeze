@@ -32,7 +32,7 @@
                         </x-slot>
     
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('admin.customers.index')">
+                            <x-dropdown-link :href="route('admin.mails.index')">
                                 {{ __('Customers List') }}
                             </x-dropdown-link>
     
