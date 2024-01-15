@@ -30,12 +30,12 @@ class CustomersController extends Controller
     {
         $mails = Mail::all();
 
-        return view('admin.customers.index', compact('mails'));
+        return view('admin.mails.index', compact('mails'));
     }
 
     public function create()
     {
-        return view('admin.customers.create');
+        return view('admin.mails.create');
     }
 
     public function store(Request $request)
@@ -48,16 +48,16 @@ class CustomersController extends Controller
 
         $newMail = new Mail();
 
-        $newMail->mailName = $data['mailName'];
-        $newMail->mailHost = $data['mailHost'];
-        $newMail->mailUsername = $data['mailUsername'];
-        $newMail->mailPassword = $data['mailPassword'];
-        $newMail->mailSmtpSecure = $data['mailSmtpSecure'];
-        $newMail->mailPort = $data['mailPort'];
+        $newMail->mailName          = $data['mailName'];
+        $newMail->mailHost          = $data['mailHost'];
+        $newMail->mailUsername      = $data['mailUsername'];
+        $newMail->mailPassword      = $data['mailPassword'];
+        $newMail->mailSmtpSecure    = $data['mailSmtpSecure'];
+        $newMail->mailPort          = $data['mailPort'];
 
         $newMail->save();
 
-        return redirect()->route('admin.customers.index', ['mail' => $newMail]);
+        return redirect()->route('admin.mails.index', ['mail' => $newMail]);
     }
 
     /**
@@ -68,20 +68,28 @@ class CustomersController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Mail $mail)
     {
-        //
+        return view('admin.mails.edit', compact('mail'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Mail $mail)
     {
-        //
+        //validare i dati
+        $request->validate($this->validations, $this->validations_messages);
+
+        $data = $request->all();
+
+        $mail->mailName             = $data['mailName'];
+        $mail->mailHost             = $data['mailHost'];
+        $mail->mailUsername         = $data['mailUsername'];
+        $mail->mailPassword         = $data['mailPassword'];
+        $mail->mailSmtpSecure       = $data['mailSmtpSecure'];
+        $mail->mailPort             = $data['mailPort'];
+
+        $mail->update();
+
+        return redirect()->route('admin.mails.index', ['mail' => $mail->id]);
     }
 
     /**

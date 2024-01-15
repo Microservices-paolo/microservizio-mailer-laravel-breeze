@@ -10,7 +10,7 @@
         <h2 class="px-96 mt-4 mb-4 text-2xl font-semibold leadi">Customers</h2>
 
         <button type="button" class="mx-96 mr-1 mb-4 px-8 py-2 font-semibold border rounded dark:border-gray-100 dark:text-gray-100 hover:bg-blue-700 hover:text-white hover:scale-105 duration-200">
-            <a href="{{ route("admin.customers.create") }}">Create a new Customers</a>
+            <a href="{{ route("admin.mails.create") }}">Create a new Customers</a>
         </button>
         <div class="flex justify-center">
             <table class="text-xs text-left whitespace-nowrap">
@@ -52,7 +52,7 @@
                                    
     
                                     <button class="ml-2 px-2 py-2 font-semibold border rounded dark:border-gray-100 dark:text-gray-100 hover:bg-yellow-500 hover:text-black">
-                                        <a class="button mx-1" href="">Edit</a>
+                                        <a class="button mx-1" href="{{route('admin.mails.edit', ['mail' => $mail->id]) }}">Edit</a>
                                     </button>
     
                                     <form
