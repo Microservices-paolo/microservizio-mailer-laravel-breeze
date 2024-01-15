@@ -10,24 +10,20 @@ class CustomersController extends Controller
 {
 
     private $validations = [
-        'mailName'          => "required|string|max:30|unique:mails",
-        'mailHost'          => "required|string|max:30",
-        'mailUsername'      => "required|email|unique:mails",
-        'mailPassword'      => "required|string|min:8|max:30",
-        'mailSmtpSecure'    => "required|string|size:3",
-        'mailPort'          => 'required|numeric|digits_between:3,3',
+        'mailName'          => "required|string|max:100",
+        'mailHost'          => "required|string|max:100",
+        'mailUsername'      => "required|string|max:100",
+        'mailPassword'      => "required|string|max:100",
+        'mailSmtpSecure'    => "required|string|max:100",
+        'mailPort'          => "required|string|max:100",
     ];
 
     private $validations_messages = [
-        'required'              => 'il campo :attribute è obbligatorio',
-        'min'                   => 'il campo :attribute deve avere minimo :min caratteri',
-        'max'                   => 'il campo :attribute non può superare i :max caratteri',
-        'url'                   => 'il campo deve essere un url valido',
-        'exists'                => 'Valore non valido',
-        'size'                  => 'Il campo :attribute deve essere esattamente di :size caratteri',
-        'digits_between'        => 'Il campo :attribute deve essere esattamente di :min cifre',
-        'email'                 => 'Il campo deve contenere una mail',
-        'unique'                => ':attribute già presente nel db'
+        'required'  => 'il campo :attribute è obbligatorio',
+        'min'       => 'il campo :attribute deve avere minimo :min caratteri',
+        'max'       => 'il campo :attribute non può superare i :max caratteri',
+        'url'       => 'il campo deve essere un url valido',
+        'exists'    => 'Valore non valido'
     ];
     
     public function index()
@@ -44,7 +40,6 @@ class CustomersController extends Controller
 
     public function store(Request $request)
     {   
-      
         //validare i dati
         $request->validate($this->validations, $this->validations_messages);
 

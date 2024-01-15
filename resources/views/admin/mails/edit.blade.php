@@ -1,7 +1,7 @@
 <x-app-layout>
     <section class="m-5 p-6 dark:bg-gray-800 dark:text-gray-50">
         <div class="p-5">
-            <h1 class="text-2xl font-bold">Create a new Customer</h1>
+            <h1 class="text-2xl font-bold">Edit a new Customer</h1>
             <form 
             method="POST" 
             action="{{ route('admin.mails.update' , ['mail' => $mail->id])}}" 
