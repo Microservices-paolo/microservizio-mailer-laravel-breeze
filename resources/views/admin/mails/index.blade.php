@@ -20,7 +20,6 @@
                         <th class="p-2">Name</th>
                         <th class="p-2">Host</th>
                         <th class="p-2">Username</th>
-                        <th class="p-2">Password</th>
                         <th class="p-2">Smtp</th>
                         <th class="p-2">Port</th>
                         <th class="p-2">Actions</th>
@@ -37,9 +36,6 @@
                             </td>
                             <td class="pl-2 pe-8">
                                 <p>{{$mail->mailUsername}}</p>
-                            </td>
-                            <td class="pl-2 pe-8">
-                                <p>{{$mail->mailPassword}}</p>
                             </td>
                             <td class="px-2 py-2">
                                 <p>{{$mail->mailSmtpSecure}}</p>
