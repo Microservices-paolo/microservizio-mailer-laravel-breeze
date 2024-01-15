@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Mail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class CustomersController extends Controller
 {
@@ -55,7 +56,7 @@ class CustomersController extends Controller
         $newMail->mailName          = $data['mailName'];
         $newMail->mailHost          = $data['mailHost'];
         $newMail->mailUsername      = $data['mailUsername'];
-        $newMail->mailPassword      = $data['mailPassword'];
+        $newMail->mailPassword      = Hash::make($data['mailPassword']);
         $newMail->mailSmtpSecure    = $data['mailSmtpSecure'];
         $newMail->mailPort          = $data['mailPort'];
 
@@ -83,17 +84,25 @@ class CustomersController extends Controller
         'mailName'         => "required|string|max:30|unique:mails,mailName,{$mail->id}",
         'mailHost'         => "required|string|max:30",
         'mailUsername'     => "required|email|unique:mails,mailUsername,{$mail->id}",
-        'mailPassword'     => "required|string|min:8|max:30",
+        'mailPassword'     => "nullable|string|min:8|max:30",
         'mailSmtpSecure'   => "required|string|size:3",
         'mailPort'         => 'required|numeric|digits_between:3,3',
     ]);
 
     $data = $request->all();
 
+    // Se il campo mailPassword è vuoto, mantieni la password precedente
+    if (empty($data['mailPassword'])) {
+        $data['mailPassword'] = $mail->mailPassword;
+    } else {
+        // Altrimenti, hash della nuova password
+        $data['mailPassword'] = Hash::make($data['mailPassword']);
+    }
+
     $mail->mailName             = $data['mailName'];
     $mail->mailHost             = $data['mailHost'];
     $mail->mailUsername         = $data['mailUsername'];
-    $mail->mailPassword         = $data['mailPassword'];
+    $mail->mailPassword         = Hash::make($data['mailPassword']);
     $mail->mailSmtpSecure       = $data['mailSmtpSecure'];
     $mail->mailPort             = $data['mailPort'];
 

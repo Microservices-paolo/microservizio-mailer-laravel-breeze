@@ -85,13 +85,13 @@
                             class="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900 form-control @error('mailPassword') is-invalid @enderror" 
                             id="mailPassword" 
                             name="mailPassword" 
-                            value="{{ old('mailPassword', $mail->mailPassword) }}">
+                            value="">
                 
                             <div class="invalid-feedback">
                                 @error('mailPassword') {{ $message }} @enderror
                             </div>
                         </div>
-
+                        
                         {{-- Smtp --}}
 
                         <div class="col-span-full sm:col-span-3">
