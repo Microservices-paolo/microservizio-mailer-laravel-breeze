@@ -78,23 +78,29 @@ class CustomersController extends Controller
     }
 
     public function update(Request $request, Mail $mail)
-    {
-        //validare i dati
-        $request->validate($this->validations, $this->validations_messages);
+{
+    $request->validate([
+        'mailName'         => "required|string|max:30|unique:mails,mailName,{$mail->id}",
+        'mailHost'         => "required|string|max:30",
+        'mailUsername'     => "required|email|unique:mails,mailUsername,{$mail->id}",
+        'mailPassword'     => "required|string|min:8|max:30",
+        'mailSmtpSecure'   => "required|string|size:3",
+        'mailPort'         => 'required|numeric|digits_between:3,3',
+    ]);
 
-        $data = $request->all();
+    $data = $request->all();
 
-        $mail->mailName             = $data['mailName'];
-        $mail->mailHost             = $data['mailHost'];
-        $mail->mailUsername         = $data['mailUsername'];
-        $mail->mailPassword         = $data['mailPassword'];
-        $mail->mailSmtpSecure       = $data['mailSmtpSecure'];
-        $mail->mailPort             = $data['mailPort'];
+    $mail->mailName             = $data['mailName'];
+    $mail->mailHost             = $data['mailHost'];
+    $mail->mailUsername         = $data['mailUsername'];
+    $mail->mailPassword         = $data['mailPassword'];
+    $mail->mailSmtpSecure       = $data['mailSmtpSecure'];
+    $mail->mailPort             = $data['mailPort'];
 
-        $mail->update();
+    $mail->save();
 
-        return redirect()->route('admin.mails.index', ['mail' => $mail->id]);
-    }
+    return redirect()->route('admin.mails.index', ['mail' => $mail->id]);
+}
 
     /**
      * Remove the specified resource from storage.
