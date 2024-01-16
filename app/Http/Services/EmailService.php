@@ -25,11 +25,11 @@ use stdClass;
     {
         $mailData = new stdClass();
 
-        $mailData->mailHost = $this->identificationFrontEnd->getMailData('mailHost');;
-        $mailData->mailUsername = $this->identificationFrontEnd->getMailData('mailUsername');;
-        $mailData->mailPassword = $this->identificationFrontEnd->getMailData('mailPassword');;
-        $mailData->mailSmtpSecure = $this->identificationFrontEnd->getMailData('mailSmtpSecure');;
-        $mailData->mailPort = $this->identificationFrontEnd->getMailData('mailPort');;
+        $mailData->mailHost = $this->identificationFrontEnd->getMailData('mailHost');
+        $mailData->mailUsername = $this->identificationFrontEnd->getMailData('mailUsername');
+        $mailData->mailPassword = $this->identificationFrontEnd->getMailData('mailPassword');
+        $mailData->mailSmtpSecure = $this->identificationFrontEnd->getMailData('mailSmtpSecure');
+        $mailData->mailPort = $this->identificationFrontEnd->getMailData('mailPort');
         $mailData->mailFrom = $mailData->mailUsername;
 
         return $mailData; 

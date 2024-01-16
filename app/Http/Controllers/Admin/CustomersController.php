@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 class CustomersController extends Controller
 {
+    private $securityPassword;
+    
+    public function __construct(SecurityPassword $securityPassword)
+    {
+        $this->securityPassword = $securityPassword;
+    }
 
     private $validations = [
         'mailName'          => "required|string|max:100",
@@ -51,7 +57,7 @@ class CustomersController extends Controller
         $newMail->mailName          = $data['mailName'];
         $newMail->mailHost          = $data['mailHost'];
         $newMail->mailUsername      = $data['mailUsername'];
-        $newMail->mailPassword      = Hash::make($data['mailPassword']);
+        $newMail->mailPassword      = $this->securityPassword->encryptData($data['mailPassword'], "paolo");
         $newMail->mailSmtpSecure    = $data['mailSmtpSecure'];
         $newMail->mailPort          = $data['mailPort'];
 
