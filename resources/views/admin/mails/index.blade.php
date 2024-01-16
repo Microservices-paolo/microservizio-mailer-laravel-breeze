@@ -52,7 +52,7 @@
                                     </button>
     
                                     <form
-                                        action=""
+                                        action="{{ route('admin.mails.destroy', ['mail' => $mail->id]) }}"
                                         method="post"
                                         class="d-inline-block mx-1"
                                     >

@@ -1,6 +1,7 @@
 TODO GESTIONE:
 <!-- fare crud; -->
-fare template per gestire il db;
+<!-- fare template per gestire il db; -->
+sistemare validazioni
 
 TODO DB:
 <!-- hashare le password; -->
@@ -18,3 +19,4 @@ Aggiungere try-catch nei metodi
 Migliorare performance;
 Renderlo più mantenibile;
 <!-- Provare a fare un metodo unico nel middleware; -->
+
