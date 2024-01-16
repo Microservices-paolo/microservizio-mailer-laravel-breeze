@@ -81,43 +81,42 @@ class CustomersController extends Controller
     }
 
     public function update(Request $request, Mail $mail)
-{
-    $request->validate([
-        'mailName'         => "required|string|max:30|unique:mails,mailName,{$mail->id}",
-        'mailHost'         => "required|string|max:30",
-        'mailUsername'     => "required|email|unique:mails,mailUsername,{$mail->id}",
-        'mailPassword'     => "nullable|string|min:8|max:30",
-        'mailSmtpSecure'   => "required|string|size:3",
-        'mailPort'         => 'required|numeric|digits_between:3,3',
-    ]);
+    {
+        $request->validate([
+            'mailName'         => "required|string|max:30|unique:mails,mailName,{$mail->id}",
+            'mailHost'         => "required|string|max:30",
+            'mailUsername'     => "required|email|unique:mails,mailUsername,{$mail->id}",
+            'mailPassword'     => "nullable|string|min:8|max:30",
+            'mailSmtpSecure'   => "required|string|size:3",
+            'mailPort'         => 'required|numeric|digits_between:3,3',
+        ]);
 
-    $data = $request->all();
+        $data = $request->all();
 
-    // Se il campo mailPassword è vuoto, mantieni la password precedente
-    if (empty($data['mailPassword'])) {
-        $data['mailPassword'] = $mail->mailPassword;
-    } else {
-        // Altrimenti, hash della nuova password
-        $data['mailPassword'] = $this->securityPassword->encryptData($data['mailPassword'], $_ENV['SECRET_KEY']);
+        // Se il campo mailPassword è vuoto, mantieni la password precedente
+        if (empty($data['mailPassword'])) {
+            $data['mailPassword'] = $mail->mailPassword;
+        } else {
+            // Altrimenti, hash della nuova password
+            $data['mailPassword'] = $this->securityPassword->encryptData($data['mailPassword'], $_ENV['SECRET_KEY']);
+        }
+
+        $mail->mailName             = $data['mailName'];
+        $mail->mailHost             = $data['mailHost'];
+        $mail->mailUsername         = $data['mailUsername'];
+        $mail->mailPassword         = $data['mailPassword'];
+        $mail->mailSmtpSecure       = $data['mailSmtpSecure'];
+        $mail->mailPort             = $data['mailPort'];
+
+        $mail->save();
+
+        return redirect()->route('admin.mails.index', ['mail' => $mail->id]);
     }
 
-    $mail->mailName             = $data['mailName'];
-    $mail->mailHost             = $data['mailHost'];
-    $mail->mailUsername         = $data['mailUsername'];
-    $mail->mailPassword         = $data['mailPassword'];
-    $mail->mailSmtpSecure       = $data['mailSmtpSecure'];
-    $mail->mailPort             = $data['mailPort'];
-
-    $mail->save();
-
-    return redirect()->route('admin.mails.index', ['mail' => $mail->id]);
-}
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Mail $mail)
     {
-        //
+        $mail->delete();
+
+        return to_route('admin.mails.index')->with('delete_success', $mail);
     }
 }
