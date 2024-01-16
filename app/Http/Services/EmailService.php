@@ -14,10 +14,13 @@ use stdClass;
 {
     // Independence Injection per prendere il dati dal middleware IdentificationFrontEnd
     private $identificationFrontEnd;
+    private $securityPassword;
     
-    public function __construct(IdentificationFrontEnd $identificationFrontEnd)
+
+    public function __construct(IdentificationFrontEnd $identificationFrontEnd, SecurityPassword $securityPassword)
     {
         $this->identificationFrontEnd = $identificationFrontEnd;
+        $this->securityPassword = $securityPassword;
     }
 
     // setMailData() si occupa di prendere i dati necessari all'invio delle mail tramite il metodo getMailData() del middleware IdentificationFrontEnd
@@ -50,7 +53,7 @@ use stdClass;
         
             $mail->Host = $mailData->mailHost;
             $mail->Username = $mailData->mailUsername;
-            $mail->Password = $mailData->mailPassword;
+            $mail->Password = $this->securityPassword->decryptData($mailData->mailPassword, "paolo");
             $mail->SMTPSecure = $mailData->mailSmtpSecure;
             $mail->Port = $mailData->mailPort;
             $mail->setFrom($mailData->mailFrom);
