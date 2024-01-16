@@ -97,13 +97,13 @@ class CustomersController extends Controller
         $data['mailPassword'] = $mail->mailPassword;
     } else {
         // Altrimenti, hash della nuova password
-        $data['mailPassword'] = Hash::make($data['mailPassword']);
+        $data['mailPassword'] = $this->securityPassword->encryptData($data['mailPassword'], $_ENV['SECRET_KEY']);
     }
 
     $mail->mailName             = $data['mailName'];
     $mail->mailHost             = $data['mailHost'];
     $mail->mailUsername         = $data['mailUsername'];
-    $mail->mailPassword         = Hash::make($data['mailPassword']);
+    $mail->mailPassword         = $data['mailPassword'];
     $mail->mailSmtpSecure       = $data['mailSmtpSecure'];
     $mail->mailPort             = $data['mailPort'];
 
