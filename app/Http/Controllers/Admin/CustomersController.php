@@ -57,7 +57,7 @@ class CustomersController extends Controller
         $newMail->mailName          = $data['mailName'];
         $newMail->mailHost          = $data['mailHost'];
         $newMail->mailUsername      = $data['mailUsername'];
-        $newMail->mailPassword      = $this->securityPassword->encryptData($data['mailPassword'], "paolo");
+        $newMail->mailPassword      = $this->securityPassword->encryptData($data['mailPassword'], $_ENV['SECRET_KEY']);
         $newMail->mailSmtpSecure    = $data['mailSmtpSecure'];
         $newMail->mailPort          = $data['mailPort'];
 

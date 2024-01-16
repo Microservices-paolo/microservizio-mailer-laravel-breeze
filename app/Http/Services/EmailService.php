@@ -53,7 +53,7 @@ use stdClass;
         
             $mail->Host = $mailData->mailHost;
             $mail->Username = $mailData->mailUsername;
-            $mail->Password = $this->securityPassword->decryptData($mailData->mailPassword, "paolo");
+            $mail->Password = $this->securityPassword->decryptData($mailData->mailPassword, $_ENV['SECRET_KEY']);
             $mail->SMTPSecure = $mailData->mailSmtpSecure;
             $mail->Port = $mailData->mailPort;
             $mail->setFrom($mailData->mailFrom);
