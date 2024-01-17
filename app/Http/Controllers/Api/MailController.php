@@ -49,7 +49,7 @@ class MailController extends Controller
                 $this->emailService->sendEmail($mailFrom, "Email mandata da $name", 
                 $this->emailBuilder->buildMailBody($email, $telephone, $contact, $name, false));
                     
-                return response()->json(['mail' => $email, "nome" => $name, "telephone" => $telephone, "contact" => $contact, "sendMail" => $sendMail],200);
+                return response()->json(['message' => 'Richiesta effettuata con successo.'],200);
             } else {
                 return response()->json(['message' => 'Richiesta non valida.'], 400);
             }
