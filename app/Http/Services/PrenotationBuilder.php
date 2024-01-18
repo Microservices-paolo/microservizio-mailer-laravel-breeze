@@ -5,8 +5,8 @@ namespace App\Http\Services;
 class PrenotationBuilder
 {
     // buildMailBody() è il metodo di partenza per generare l'html delle mail, il contenuto del body viene generato dagli altri due metodi
-    public function buildMailBody($email, $telephone, $contact, $name, $isClient){
-        $content =  $isClient ? $this->getMailBodyClient($name) : $this->getMailBodyAdmin($email, $telephone, $contact);
+    public function buildMailBody($mail, $name, $telephone, $people, $messagge, $date, $hour, $isClient){
+        $content =  $isClient ? $this->getMailBodyClient($name) : $this->getMailBodyAdmin($mail, $name, $telephone, $people, $messagge, $date, $hour);
         return <<<END
             <!DOCTYPE html>
             <html lang="en">
@@ -17,20 +17,20 @@ class PrenotationBuilder
             </head>
             <body>
                 $content
-                prenotation builder
             </body>
             </html>
         END;
     }
 
     // getMailBodyAdmin() genera il body della mail di richiesta informazioni che arriverà all'admin proprietario del front-end
-    function getMailBodyAdmin($email, $telephone, $contact) {
+    function getMailBodyAdmin($mail, $name, $telephone, $people, $messagge, $date, $hour) {
         return <<<END
-
-            <h1>Mail del cliente</h1>
-            <p>Email: $email; </p>
-            <p>Telefono: $telephone; </p>
-            <p>Il cliente vorrebbe essere contattato attraverso: $contact;</p>
+            <h1>Prenotazione tavolo $name</h1>
+            <p>$name ha prenotato un tavolo per $people persone per il giorno $date alle ore $hour.</p>
+            <span>Mail: $mail </span>
+            // TO DO ADD IF
+            <span>Messaggio da parte del cliente:</span>
+            <p>$message</p>
             
         END;
     }
@@ -41,7 +41,9 @@ class PrenotationBuilder
         
             <h1>Ciao $name</h1>
             
-            <p>Abbiamo ricevuto la tua richiesta verrai contattato a breve!</p>
+            <p>La tua prenotazione è stata inoltrata con successo!</p>
+            <span>Riepilogo prenotazione:</span>
+            <p>$nome, $people, $date, $hour</p>
         
         END;
     }

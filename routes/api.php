@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/mail/createMail', [MailController::class, 'createMail']);
+Route::post('/mail/reservePrenotation', [PrenotationController::class, 'reservePrenotation']);
