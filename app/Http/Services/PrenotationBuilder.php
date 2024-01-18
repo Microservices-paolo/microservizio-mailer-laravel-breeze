@@ -2,7 +2,7 @@
 namespace App\Http\Services;
 
  // Questo service è fondamentale con i suoi metodi per il controller Api\MailController affinchè possa costruire il testo delle mail da mandare.
-class EmailBuilder
+class PrenotationBuilder
 {
     // buildMailBody() è il metodo di partenza per generare l'html delle mail, il contenuto del body viene generato dagli altri due metodi
     public function buildMailBody($email, $telephone, $contact, $name, $isClient){

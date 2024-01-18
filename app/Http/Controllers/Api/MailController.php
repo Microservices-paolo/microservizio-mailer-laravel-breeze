@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Services\EmailBuilder;
 use App\Http\Services\EmailService;
 use App\Http\Controllers\Controller;
+use App\Http\Services\PrenotationBuilder;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Middleware\IdentificationFrontEnd;
 
@@ -14,7 +15,7 @@ class MailController extends Controller
 {
     private $emailService;
     private $emailBuilder;
-    private $pranotationBuilder;
+    private $prenotationBuilder;
     private $identificationFrontEnd;
 
     public function __construct(EmailService $emailService, EmailBuilder $emailBuilder, PrenotationBuilder $prenotationBuilder,  IdentificationFrontEnd $identificationFrontEnd)
@@ -44,7 +45,7 @@ class MailController extends Controller
                 // Prendiamo i dati dal Middleware
                 $mailFrom = $this->identificationFrontEnd->getMailData('mailUsername');
 
-                $test = true;
+                $test = false;
 
                 // Invia email al cliente
                 $this->emailService->sendEmail($email, "Email di conferma", 
