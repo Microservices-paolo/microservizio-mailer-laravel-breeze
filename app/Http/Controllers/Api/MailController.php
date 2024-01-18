@@ -14,12 +14,14 @@ class MailController extends Controller
 {
     private $emailService;
     private $emailBuilder;
+    private $pranotationBuilder;
     private $identificationFrontEnd;
 
-    public function __construct(EmailService $emailService, EmailBuilder $emailBuilder, IdentificationFrontEnd $identificationFrontEnd)
+    public function __construct(EmailService $emailService, EmailBuilder $emailBuilder, PrenotationBuilder $prenotationBuilder,  IdentificationFrontEnd $identificationFrontEnd)
     {
         $this->emailService = $emailService;
         $this->emailBuilder = $emailBuilder;
+        $this->prenotationBuilder = $prenotationBuilder;
         $this->identificationFrontEnd = $identificationFrontEnd;
     }
 
@@ -42,12 +44,15 @@ class MailController extends Controller
                 // Prendiamo i dati dal Middleware
                 $mailFrom = $this->identificationFrontEnd->getMailData('mailUsername');
 
+                $test = true;
+
                 // Invia email al cliente
-                $this->emailService->sendEmail($email, "Email di conferma", $this->emailBuilder->buildMailBody($email, $telephone, $contact, $name, true));
+                $this->emailService->sendEmail($email, "Email di conferma", 
+                $test ? $this->emailBuilder->buildMailBody($email, $telephone, $contact, $name, true) : $this->prenotationBuilder->buildMailBody($email, $telephone, $contact, $name, true));
 
                 // Invia email al proprietario
                 $this->emailService->sendEmail($mailFrom, "Email mandata da $name", 
-                $this->emailBuilder->buildMailBody($email, $telephone, $contact, $name, false));
+                $test ? $this->emailBuilder->buildMailBody($email, $telephone, $contact, $name, false) : $this->prenotationBuilder->buildMailBody($email, $telephone, $contact, $name, false));
                     
                 return response()->json(['mail' => $email, "nome" => $name, "telephone" => $telephone, "contact" => $contact, "sendMail" => $sendMail],200);
             } else {
