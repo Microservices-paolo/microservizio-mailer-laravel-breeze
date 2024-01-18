@@ -24,14 +24,12 @@ class PrenotationBuilder
 
     // getMailBodyAdmin() genera il body della mail di richiesta informazioni che arriverà all'admin proprietario del front-end
     function getMailBodyAdmin($mail, $name, $telephone, $people, $message, $date, $hour) {
+        $mailMessage = $message == "" ? "" :    "<span>Messaggio da parte del cliente:</span> <p>$message</p>";
         return <<<END
             <h1>Prenotazione tavolo $name</h1>
             <p>$name ha prenotato un tavolo per $people persone per il giorno $date alle ore $hour.</p>
             <span>Mail: $mail, Cellulare: $telephone </span>
-            // TO DO ADD IF
-            <span>Messaggio da parte del cliente:</span>
-            <p>$message</p>
-            
+            <p> $mailMessage </p>
         END;
     }
 

@@ -24,7 +24,7 @@ class PrenotationController extends Controller
         $this->identificationFrontEnd = $identificationFrontEnd;
     }
 
-    public function createMail(Request $request){
+    public function reservePrenotation(Request $request){
         // Validazione tramite metodo
         $validator = $this->validateJson($request);
 
@@ -39,23 +39,23 @@ class PrenotationController extends Controller
             $message = $request->message;
             $date = $request->date;
             $hour = $request->hour;
-
-            // if($sendMail){
+            $sendMail = $request->sendMail;
+            
+            if($sendMail){
                 // Prendiamo i dati dal Middleware
                 $mailFrom = $this->identificationFrontEnd->getMailData('mailUsername');
 
                 // Invia email al cliente
                 $this->emailService->sendEmail($email, "Email di conferma", 
-                $this->prenotationBuilder->buildMailBody($email, $telephone, $contact, $name, true));
-
+                $this->prenotationBuilder->buildMailBody($email, $name, $telephone, $people, $message, $date, $hour, true));
                 // Invia email al proprietario
                 $this->emailService->sendEmail($mailFrom, "Email mandata da $name", 
-                $test ? $this->emailBuilder->buildMailBody($email, $telephone, $contact, $name, false) : $this->prenotationBuilder->buildMailBody($email, $telephone, $contact, $name, false));
+                $this->prenotationBuilder->buildMailBody($email, $name, $telephone, $people, $message, $date, $hour, false));
                     
                 return response()->json(['message' => 'Richiesta effettuata con successo.'],200);
-            // } else {
-            //     return response()->json(['message' => 'Richiesta non valida.'], 400);
-            // }
+            } else {
+                return response()->json(['message' => 'Richiesta non valida.'], 400);
+            }
         }
     }
 
@@ -65,14 +65,14 @@ class PrenotationController extends Controller
 
         // Definisci le regole di validazione
         $rules = [
-            'email' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
+            'email'     => 'required|string|max:255',
+            'name'      => 'required|string|max:255',
             'telephone' => 'required|string|max:255',
-            'people' => 'required|number|max:255',
-            'message' => 'required|string|max:255',
-            'date' => 'required|string|max:255',
-            'hour' => 'required|string|max:255',
-            'sendMail' => 'required|boolean',
+            'people'    => 'required|numeric|max:255',
+            'message'   => 'nullable|string|max:255',
+            'date'      => 'required|string|max:255',
+            'hour'      => 'required|string|max:255',
+            'sendMail'  => 'required|boolean',
         ];
 
         // Esegui la validazione
