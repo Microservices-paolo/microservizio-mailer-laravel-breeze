@@ -67,7 +67,7 @@ use stdClass;
             $mail->send();
         
         } catch (Exception $e) {
-            echo "Impossibile inviare il messaggio. Errore Mailer: {$mail->ErrorInfo}";
+            return response()->json(['message' => $e->getMessage()], 400);
         }
     }
 }

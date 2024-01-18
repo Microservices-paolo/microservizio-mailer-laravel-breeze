@@ -1,7 +1,7 @@
 TODO GESTIONE:
 <!-- fare crud; -->
 <!-- fare template per gestire il db; -->
-sistemare validazioni
+<!-- sistemare validazioni -->
 
 TODO DB:
 <!-- hashare le password; -->
@@ -16,7 +16,7 @@ Sistemare tutti i messaggi json di risposta
 Rendere i metodi asincroni
 Aggiungere try-catch nei metodi
 <!-- Pulire il codice; -->
-Migliorare performance;
-Renderlo più mantenibile;
+<!-- Migliorare performance; -->
+<!-- Renderlo più mantenibile; -->
 <!-- Provare a fare un metodo unico nel middleware; -->
 

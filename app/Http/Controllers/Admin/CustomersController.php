@@ -18,12 +18,12 @@ class CustomersController extends Controller
     }
 
     private $validations = [
-        'mailName'          => "required|string|max:30|unique:mails",
-        'mailHost'          => "required|string|max:30",
+        'mailName'          => "required|string|regex:/^[^\s]+$/|max:30|unique:mails",
+        'mailHost'          => "required|string|regex:/\./|max:30",
         'mailUsername'      => "required|email|unique:mails",
         'mailPassword'      => "required|string|min:8|max:30",
-        'mailSmtpSecure'    => "required|string|size:3",
-        'mailPort'          => 'required|numeric|digits_between:3,3',
+        'mailSmtpSecure'    => "required|string|regex:/^[a-zA-Z]+$/|size:3",
+        'mailPort'          => "required|numeric|digits_between:3,3",
     ];
 
     private $validations_messages = [
@@ -35,7 +35,12 @@ class CustomersController extends Controller
         'size'                  => 'Il campo :attribute deve essere esattamente di :size caratteri',
         'digits_between'        => 'Il campo :attribute deve essere esattamente di :min cifre',
         'email'                 => 'Il campo deve contenere una mail',
-        'unique'                => ':attribute già presente nel db'
+        'unique'                => ':attribute già presente nel db',
+        
+        'mailName.regex'        => 'Il campo :attribute non può contenere spazi.',
+        'mailHost.regex'        => 'Il campo :attribute deve contenere almeno un punto.',
+        'mailSmtpSecure.regex'  => 'Il campo :attribute deve contenere solo lettere.',
+       
     ];
     
     public function index()
@@ -89,13 +94,13 @@ class CustomersController extends Controller
     public function update(Request $request, Mail $mail)
     {
         $request->validate([
-            'mailName'         => "required|string|max:30|unique:mails,mailName,{$mail->id}",
-            'mailHost'         => "required|string|max:30",
+            'mailName'         => "required|string|max:30|regex:/^[^\s]+$/|unique:mails,mailName,{$mail->id}",
+            'mailHost'         => "required|string|regex:/\./|max:30",
             'mailUsername'     => "required|email|unique:mails,mailUsername,{$mail->id}",
             'mailPassword'     => "nullable|string|min:8|max:30",
-            'mailSmtpSecure'   => "required|string|size:3",
+            'mailSmtpSecure'   => "required|string|regex:/^[a-zA-Z]+$/|size:3",
             'mailPort'         => 'required|numeric|digits_between:3,3',
-        ]);
+        ], $this->validations_messages);
 
         $data = $request->all();
 
