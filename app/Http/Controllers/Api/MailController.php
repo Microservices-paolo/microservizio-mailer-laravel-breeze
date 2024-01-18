@@ -67,7 +67,7 @@ class MailController extends Controller
             'email' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'telephone' => 'required|string|max:255',
-
+            'contact' => 'required|string|max:255',
             'sendMail' => 'required|boolean',
         ];
 
