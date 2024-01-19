@@ -82,7 +82,7 @@
                                 Password
                             </label>
                             <input 
-                            type="text" 
+                            type="password" 
                             class="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900 form-control @error('mailPassword') is-invalid @enderror" 
                             id="mailPassword" 
                             name="mailPassword" 

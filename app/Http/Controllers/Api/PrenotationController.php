@@ -4,29 +4,33 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Mail;
 use Illuminate\Http\Request;
+
 use App\Http\Services\EmailBuilder;
 use App\Http\Services\EmailService;
 use App\Http\Controllers\Controller;
 use App\Http\Services\PrenotationBuilder;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Middleware\IdentificationFrontEnd;
+use App\Http\Services\ValidationsService;
 
 class PrenotationController extends Controller
 {
     private $emailService;
     private $prenotationBuilder;
     private $identificationFrontEnd;
+    private $validationsService;
 
-    public function __construct(EmailService $emailService, PrenotationBuilder $prenotationBuilder,  IdentificationFrontEnd $identificationFrontEnd)
+    public function __construct(EmailService $emailService, PrenotationBuilder $prenotationBuilder,  IdentificationFrontEnd $identificationFrontEnd, ValidationsService $validationsService )
     {
         $this->emailService = $emailService;
         $this->prenotationBuilder = $prenotationBuilder;
         $this->identificationFrontEnd = $identificationFrontEnd;
+        $this->validationsService = $validationsService;
     }
 
     public function reservePrenotation(Request $request){
         // Validazione tramite metodo
-        $validator = $this->validateJson($request);
+        $validator = $this->validationsService->validateJson($request, 'prenotations');
 
         if ($validator->fails()) {
             // Gestisci gli errori come preferisci
@@ -59,25 +63,25 @@ class PrenotationController extends Controller
         }
     }
 
-    public function validateJson(Request $request){
-        // Decodifica il JSON nel formato di un array associativo
-        $data = json_decode($request->getContent(), true);
+    // public function validateJson(Request $request){
+    //     // Decodifica il JSON nel formato di un array associativo
+    //     $data = json_decode($request->getContent(), true);
 
-        // Definisci le regole di validazione
-        $rules = [
-            'email'     => 'required|string|max:255',
-            'name'      => 'required|string|max:255',
-            'telephone' => 'required|string|max:255',
-            'people'    => 'required|numeric|max:255',
-            'message'   => 'nullable|string|max:255',
-            'date'      => 'required|string|max:255',
-            'hour'      => 'required|string|max:255',
-            'sendMail'  => 'required|boolean',
-        ];
+    //     // Definisci le regole di validazione
+    //     $rules = [
+    //         'email'     => 'required|string|max:255',
+    //         'name'      => 'required|string|max:255',
+    //         'telephone' => 'required|string|max:255',
+    //         'people'    => 'required|numeric|max:255',
+    //         'message'   => 'nullable|string|max:255',
+    //         'date'      => 'required|string|max:255',
+    //         'hour'      => 'required|string|max:255',
+    //         'sendMail'  => 'required|boolean',
+    //     ];
 
-        // Esegui la validazione
-        $validator = Validator::make($data, $rules);
-        return $validator;
-    }
+    //     // Esegui la validazione
+    //     $validator = Validator::make($data, $rules);
+    //     return $validator;
+    // }
     
 }

@@ -8,6 +8,7 @@ use App\Http\Services\EmailBuilder;
 use App\Http\Services\EmailService;
 use App\Http\Controllers\Controller;
 use App\Http\Services\PrenotationBuilder;
+use App\Http\Services\ValidationsService;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Middleware\IdentificationFrontEnd;
 
@@ -16,17 +17,19 @@ class MailController extends Controller
     private $emailService;
     private $emailBuilder;
     private $identificationFrontEnd;
+    private $validationsService;
 
-    public function __construct(EmailService $emailService, EmailBuilder $emailBuilder, IdentificationFrontEnd $identificationFrontEnd)
+    public function __construct(EmailService $emailService, EmailBuilder $emailBuilder, IdentificationFrontEnd $identificationFrontEnd, ValidationsService $validationsService)
     {
         $this->emailService = $emailService;
         $this->emailBuilder = $emailBuilder;
         $this->identificationFrontEnd = $identificationFrontEnd;
+        $this->validationsService = $validationsService;
     }
 
     public function createMail(Request $request){
         // Validazione tramite metodo
-        $validator = $this->validateJson($request);
+        $validator = $this->validationsService->validateJson($request, 'mails');
 
         if ($validator->fails()) {
             // Gestisci gli errori come preferisci
@@ -57,23 +60,4 @@ class MailController extends Controller
             }
         }
     }
-
-    public function validateJson(Request $request){
-        // Decodifica il JSON nel formato di un array associativo
-        $data = json_decode($request->getContent(), true);
-
-        // Definisci le regole di validazione
-        $rules = [
-            'email' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
-            'telephone' => 'required|string|max:255',
-            'contact' => 'required|string|max:255',
-            'sendMail' => 'required|boolean',
-        ];
-
-        // Esegui la validazione
-        $validator = Validator::make($data, $rules);
-        return $validator;
-    }
-    
 }
